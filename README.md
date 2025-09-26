@@ -1,8 +1,9 @@
-my ticket show app 
+# My Ticket Show App
 
-#steps to setup git
-1.install git cli on windows
-2.create git account using email
-3.create a new repository on github.com as private or public
-4.clone the repository to the local system
-5.use vs code tp start implementation
+## Steps to Set Up Git
+
+1. Install Git CLI on Windows  
+2. Create a GitHub account using your email  
+3. Create a new repository on [github.com](https://github.com) as private or public  
+4. Clone the repository to your local system  
+5. Use VS Code to start implementation

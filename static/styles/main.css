@@ -26,22 +26,22 @@
 .center{
     text-align: center;
     margin: auto;
-    color: rgb(5,5,110);
+    color: coral;
 }
 
 .add{
 
-    width: 100%;        /* makes it stretch to fit parent container */
-    max-width: 600px;   /* optional: prevents it from becoming too wide */
+    width: 100%;        
+    max-width: 600px;  
     height: auto;
-    padding: 8px;       /* space inside the box */
-    font-size: 16px;    /* readable text */
-    border-radius: 6px; /* rounded corners */
+    padding: 8px;       
+    font-size: 16px;    
+    border-radius: 6px; 
 
 }
 
 .input_form{
-    border: 1px solid blue;
+    border: 1px solid rgb(28, 163, 21);
     width: 100%;
     height: auto;
     margin: auto;

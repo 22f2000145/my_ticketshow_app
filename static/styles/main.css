@@ -15,16 +15,12 @@
     border-radius: 8px;
 }
 
-.input_form{
-    border: 1px solid blue;
-    width: 100%;
-    height: auto;
+.outer_box{
+    border: 1px solid orange;
+    margin-top: 10px;
     margin: auto;
-    margin-top: 20px;
     padding: 10px;
     border-radius: 10px;
-    font-size: 16px;
-    text-align: justify;
 }
 
 .center{
@@ -42,4 +38,16 @@
     font-size: 16px;    /* readable text */
     border-radius: 6px; /* rounded corners */
 
+}
+
+.input_form{
+    border: 1px solid blue;
+    width: 100%;
+    height: auto;
+    margin: auto;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    text-align: justify;
 }

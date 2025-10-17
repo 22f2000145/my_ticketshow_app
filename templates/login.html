@@ -7,33 +7,29 @@
 </head>
 <body>
     <div class="my_container">
-    <div class="center"><h2>चलचित्र</h2></div>
+        <div class="center"><h2>चलचित्र</h2></div>
         <div class="my_panel">
-           <div class="center"><h3>Login Page</h3></div>
+            <div class="center"><h3>Login Page</h3></div>
             <div class="input_form">
                 <h4>Please Login First</h4>
 
-                <form>
-  <div class="form-group">
-    <label for="User_name">Please Enter Your User name[E-mail]</label>
-    <input type="email" class="form-control" id="User_name"  placeholder="iitm@study.ac.in">
-   
-  </div>
-  <div class="form-group">
-    <label for="Password">Please Enter Your Password</label>
-    <input type="password" class="form-control" placeholder="Password">
-  </div>
-  <div class="form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Form-check</label>
-  </div>
-  <br>
-  <button type="Login" class="btn btn-primary">Login</button>
-  Are you new user ? <a href="?">Please Signup</a>
-  
-
-
-</form>
+                <form method="POST" action="/login">
+                    <div class="form-group">
+                        <label for="User_name">Please Enter Your User name[E-mail]</label>
+                        <input type="email" class="form-control" id="User_name" name="User_name" placeholder="iitm@study.ac.in">
+                    </div>
+                    <div class="form-group">
+                        <label for="Password">Please Enter Your Password</label>
+                        <input type="password" id="Password" class="form-control" name="Password" placeholder="Password">
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Form-check</label>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    Are you new user ? <a href="/register">Please Signup</a>
+                </form>
 
             </div>
         </div>

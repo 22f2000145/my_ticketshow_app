@@ -1,25 +1,27 @@
-#starting of the app
-from flask import Flask
-from backend.models import db
+from flask import Flask, render_template
+from backend.models import db, User_info  # Import User_info for role fix
 
-app=None
+application = Flask(__name__)
+application.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///ticketshow.sqlite3"
+application.debug = True
 
-def setup_app():
-    global app
-    app=Flask(__name__)
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///ticketshow.sqlite3"
-    #Sqlite connection
-    db.init_app(app)
+db.init_app(application)
+application.app_context().push()
 
-    app.app_context().push()
-    app.debug=True
-    print("my_ticketshow_App has started...")
-
-
-setup_app()
-
+#  Role fix: ensure admin user has correct integer role
+with application.app_context():
+    usr = User_info.query.filter_by(email='admin@ds.iitm.ac.in').first()
+    if usr:
+        usr.role = 0
+        db.session.commit()
+        print(" Role updated to 0 for admin@ds.iitm.ac.in")
+    else:
+        print(" User not found for role update")
 
 from backend.controllers import *
 
-if __name__ =="__main__":
-    app.run()
+print("my_ticketshow_App has started...")
+
+# Run the app
+if __name__ == "__main__":
+    application.run()

@@ -23,7 +23,8 @@ def signin():
         if user and user.password == pwd and user.role == 0:
             print("Admin login successful")
             return render_template("admin_dashboard.html")
-
+        else:
+            return render_template("user_dashboard.html")
         print("Login failed")
 
     return render_template("login.html")

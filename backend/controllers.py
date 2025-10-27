@@ -1,67 +1,69 @@
 from flask import render_template, request
-from app import application
-from .models import *  
+from app import application, db
+from .models import User_info
 
+# Home page
 @application.route("/")
 def home():
     return render_template("index.html")
 
+# Login page and authentication
 @application.route("/login", methods=["GET", "POST"])
 def signin():
-    print("Login route accessed:", request.method)  
+    print("Login route accessed:", request.method)
 
     if request.method == "POST":
         uname = request.form.get("User_name")
         pwd = request.form.get("Password")
+        print("Login attempt:", uname, pwd)
 
-        print("Login attempt:", uname, pwd)  
+        user = User_info.query.filter_by(email=uname).first()
+        print("User from DB:", user)
 
-        # Query only by email first to isolate user existence
-        usr = User_info.query.filter_by(email=uname).first()
-        print("User from DB:", usr)
+        if user and user.password == pwd and user.role == 0:
+            print("Admin login successful")
+            return render_template("admin_dashboard.html")
 
-        if usr:
-            print("Password from DB:", usr.password)
-            print("Password match:", usr.password == pwd)
-            print("Role from DB:", usr.role)
-            print("Role match:", usr.role == 0)
+        print("Login failed")
 
-            if usr.password == pwd and usr.role == 0:
-                print("Redirecting to admin dashboard")
-                return render_template("admin_dashboard.html")
-
-        print("Login failed: invalid credentials or role mismatch")
-
-    print("Rendering login page again")  
     return render_template("login.html")
 
-@application.route("/register")
+# Registration page and user creation
+@application.route("/register", methods=["GET", "POST"])
 def signup():
+    if request.method == "POST":
+        uname = request.form.get("user_name")
+        pwd = request.form.get("password")
+        fullname = request.form.get("full_name")
+        address = request.form.get("location")
+        pin = request.form.get("pin_code")
+
+        print("Form data received:", uname, pwd, fullname, address, pin)
+
+        try:
+            new_user = User_info(
+                email=uname,
+                password=pwd,
+                full_name=fullname,
+                address=address,
+                pin_code=pin,
+                role=1  # Regular user
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            print("User registered successfully:", uname)
+            return render_template("login.html")
+        except Exception as e:
+            print("Error during registration:", e)
+            return f"Registration failed: {e}", 500
+
     return render_template("signup.html")
 
-@application.route("/fix_admin")
-def fix_admin():
-    # Delete existing admin
-    User_info.query.filter_by(id=1).delete()
-    db.session.commit()
-    
-    # Create fresh admin with clean data
-    admin = User_info(
-        name="Admin",
-        email="admin@ds.iitm.ac.in",
-        password="admin@123",
-        role=0,
-        full_name="Atul Pandey",
-        address="IIT Madras",
-        pin_code=600036
-    )
-    
-    db.session.add(admin)
-    db.session.commit()
-    
-    # Verify
-    check = User_info.query.filter_by(email="admin@ds.iitm.ac.in").first()
-    if check:
-        return f"Success! Admin recreated. Email: {check.email}, Role: {check.role}"
-    else:
-        return "Failed to create admin"
+# Debug route to list all users
+@application.route("/debug_users")
+def debug_users():
+    users = User_info.query.all()
+    return "<br>".join([
+        f"{u.id} - {u.email} - Role: {u.role} - Name: {u.full_name} - Address: {u.address} - Pin: {u.pin_code}"
+        for u in users
+    ])

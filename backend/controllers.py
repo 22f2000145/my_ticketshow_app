@@ -20,14 +20,18 @@ def signin():
         user = User_info.query.filter_by(email=uname).first()
         print("User from DB:", user)
 
-        if user and user.password == pwd and user.role == 0:
-            print("Admin login successful")
-            return render_template("admin_dashboard.html")
+        if user and user.password == pwd:
+            if user.role == 0:
+                print("Admin login successful")
+                return render_template("admin_dashboard.html")
+            elif user.role == 1:
+                print("User login successful")
+                return render_template("user_dashboard.html")
         else:
-            return render_template("user_dashboard.html")
-        print("Login failed")
+            print("Invalid login credentials")
+            return render_template("login.html", msg="INVALID USER CREDENTIALS")
 
-    return render_template("login.html")
+    return render_template("login.html", msg="")
 
 # Registration page and user creation
 @application.route("/register", methods=["GET", "POST"])
@@ -38,6 +42,13 @@ def signup():
         fullname = request.form.get("full_name")
         address = request.form.get("location")
         pin = request.form.get("pin_code")
+
+        user = User_info.query.filter_by(email=uname).first()
+        if user:
+            print("User already exists:", uname)
+            msg = "SORRY, USER ALREADY EXISTS."
+            print("Message being sent to template:", msg)
+            return render_template("signup.html", msg=msg)
 
         print("Form data received:", uname, pwd, fullname, address, pin)
 
@@ -53,12 +64,12 @@ def signup():
             db.session.add(new_user)
             db.session.commit()
             print("User registered successfully:", uname)
-            return render_template("login.html")
+            return render_template("login.html", msg="THANK YOU FOR REGISTERING. PLEASE LOGIN.")
         except Exception as e:
             print("Error during registration:", e)
             return f"Registration failed: {e}", 500
 
-    return render_template("signup.html")
+    return render_template("signup.html", msg="")
 
 # Debug route to list all users
 @application.route("/debug_users")

@@ -31,7 +31,7 @@ def signin():
             print("Invalid login credentials")
             return render_template("login.html", msg="INVALID USER CREDENTIALS")
 
-    return render_template("login.html", msg="")
+    return render_template("login.html")
 
 # Registration page and user creation
 @application.route("/register", methods=["GET", "POST"])
@@ -79,3 +79,7 @@ def debug_users():
         f"{u.id} - {u.email} - Role: {u.role} - Name: {u.full_name} - Address: {u.address} - Pin: {u.pin_code}"
         for u in users
     ])
+
+@application.route("/debug_dashboard")
+def debug_dashboard():
+    return render_template("user_dashboard.html")

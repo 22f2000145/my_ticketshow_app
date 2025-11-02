@@ -24,8 +24,8 @@ class User_info(db.Model):
     )
 
 #  Second Entity: Theatre
-class Theatre(db.Model):
-    __tablename__ = "Theatre"
+class theatre(db.Model):
+    __tablename__ = "theatre"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
@@ -33,7 +33,7 @@ class Theatre(db.Model):
     location = db.Column(db.String, nullable=False)
     pin_code = db.Column(db.Integer, nullable=False)
     capacity = db.Column(db.Integer, nullable=False)
-    shows = db.relationship("Shows", cascade="all,delete", backref="Theatre", lazy=True)
+    shows = db.relationship("Shows", cascade="all,delete", backref="theatre", lazy=True)
 
 #  Third Entity: Shows
 class Shows(db.Model):
@@ -45,7 +45,7 @@ class Shows(db.Model):
     ratings = db.Column(db.Integer, default=0)
     ticket_price = db.Column(db.Float, default=0.0)
     date_time = db.Column(db.DateTime, nullable=False)
-    Theatre_id = db.Column(db.Integer, db.ForeignKey("Theatre.id"), nullable=False)
+    Theatre_id = db.Column(db.Integer, db.ForeignKey("theatre.id"), nullable=False)
     tickets = db.relationship("Ticket", cascade="all,delete", backref="Shows", lazy=True)
 
 #  Fourth Entity: Ticket

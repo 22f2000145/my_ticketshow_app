@@ -23,10 +23,10 @@ def signin():
         if user and user.password == pwd:
             if user.role == 0:
                 print("Admin login successful")
-                return render_template("admin_dashboard.html")
+                return render_template("admin_dashboard.html",name=uname)
             elif user.role == 1:
                 print("User login successful")
-                return render_template("user_dashboard.html")
+                return render_template("user_dashboard.html",name=uname)
         else:
             print("Invalid login credentials")
             return render_template("login.html", msg="INVALID USER CREDENTIALS")
@@ -71,15 +71,17 @@ def signup():
 
     return render_template("signup.html", msg="")
 
-# Debug route to list all users
-@application.route("/debug_users")
-def debug_users():
-    users = User_info.query.all()
-    return "<br>".join([
-        f"{u.id} - {u.email} - Role: {u.role} - Name: {u.full_name} - Address: {u.address} - Pin: {u.pin_code}"
-        for u in users
-    ])
 
-@application.route("/debug_dashboard")
-def debug_dashboard():
-    return render_template("user_dashboard.html")
+@application.route("/venue/<name>", methods=["GET", "POST"])
+def add_venue(name):
+    if request.method == "POST":
+        venue_name = request.form.get("name")
+        location = request.form.get("location")
+        pin_code = request.form.get("pin_code")
+        capacity = request.form.get("capacity")
+
+        print("Venue submitted:", venue_name, location, pin_code, capacity)
+
+        return render_template("add_venue.html", name=name, msg="Venue added successfully!")
+
+    return render_template("add_venue.html", name=name)

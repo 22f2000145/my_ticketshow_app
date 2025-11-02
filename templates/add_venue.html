@@ -1,0 +1,41 @@
+{% extends "admin_layout.html" %} <!-- Inherited all navigational features -->
+{% block content %}
+
+
+            <div class="input_form">
+                <h4>Add venue</h4>
+                <form action="#SSS" method="POST">
+
+                    <div class="form-group">
+                        <label for="name">Please Enter Venue name</label>
+                        <input type="text" class="form-control" name="name" id="name" placeholder="theatre name">
+                    </div>
+                     
+                    <div class="form-group">
+                        <label for="location">Please Enter Venue Location</label>
+                        <input type="text" class="form-control" name="location" id="location" placeholder="INDIA">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Pincode">Please Enter Pincode</label>
+                        <input type="number" class="form-control" name="pin_code" id="Pincode" placeholder="XXXXXX">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="capacity">Please Enter Seating Capacity</label>
+                        <input type="number" class="form-control" name="capacity" id="capacity" placeholder="XXX">
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Form-check</label>
+                    </div>
+
+                    <br>
+
+                    <button type="submit" class="btn btn-primary">submit</button>
+                    <a href="/login" type="button" class="btn btn-primary">Cancel</a>
+                    <div class="err_msg">{{msg}}</div>
+                </form>
+            </div>
+{% endblock %}

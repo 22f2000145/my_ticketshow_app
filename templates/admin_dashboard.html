@@ -1,43 +1,44 @@
-{%extends "admin_layout.html"%} <!--Inherieted all navigational features-->
-{%block content%}
+{% extends "admin_layout.html" %} <!-- Inherited all navigational features -->
+{% block content %}
 
-            <!-- Grid Section -->
-            <div class="container mt-4">
-                {%if theatres%}
-                <div class="row">
-                    {%for theatre in theatres%}
-                    <div class="col-md-6">
-                        <div class="card" style="width: 18rem; height: 18rem;">
-                            <div class="card-body">
-                                <h5 class="card-title">{{theatre.name}}</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">{{theatre.location}}</h6>
-                                {%for show in theatre.shows%}
-                                <button type="button" class="btn btn-outline-primary">+ Add Show</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="card" style="width: 18rem; height: 18rem;">
-                            <div class="card-body">
-                                <h5 class="card-title">Venue 2</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">INOX</h6>
-                                <p class="card-text">
-                                    Some quick example text to build on the card title and make up the bulk of the card's content.
-                                </p>
-                                <button type="button" class="btn btn-outline-primary">+ Add Show</button>
-                            </div>
-                        </div>
-                        {%endfor%}
-                    </div>
-                    {%else%}
-                    <h3 class="center">No Venues are available</h3>
-                    {%endif%}
-                </div>
-
-                <!-- Add Venue Button -->
-                <div class="text-center mt-4">
-                    <button type="button" class="btn btn-primary">+ Add venue</button>
+<!-- Grid Section -->
+<div class="container mt-4">
+    {% if theatres %}
+    <div class="row">
+        {% for theatre in theatres %}
+        <div class="col-md-6">
+            <div class="card" style="width: 18rem; height: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ theatre.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ theatre.location }}</h6>
+                    {% if theatre.shows %}
+                    <table>
+                        <tr><th>Id</th><th>Name</th><th>Date_Time</th></tr>
+                        {% for show in theatre.shows %}
+                        <tr>
+                            <td>{{ show.id }}</td>
+                            <td>{{ show.name }}</td>
+                            <td>{{ show.date_time }}</td>
+                        </tr>
+                        {% endfor %} <!-- Fixed incorrect Jinja syntax -->
+                    </table>
+                    {% else %}
+                    <p>NO SHOWS available</p>
+                    {% endif %}
+                    <button type="button" class="btn btn-outline-primary">+ Add Show</button>
                 </div>
             </div>
-{%endblock%}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <h3 class="center">No Venues are available</h3>
+    {% endif %}
+
+    <!-- Add Venue Button -->
+    <div class="text-center mt-4">
+        <a href="/venue/{{name}}" type="button" class="btn btn-primary">+ Add venue</a>
+    </div>
+</div>
+
+{% endblock %}

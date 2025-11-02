@@ -4,7 +4,7 @@ db = SQLAlchemy()
 
 #  First Entity: User_info
 class User_info(db.Model):
-    __tablename__ = "user_info"
+    __tablename__ = "user_info"  
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     email = db.Column(db.String, unique=True, nullable=False)
@@ -25,7 +25,7 @@ class User_info(db.Model):
 
 #  Second Entity: Theatre
 class theatre(db.Model):
-    __tablename__ = "theatre"
+    __tablename__ = "theatre" 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
@@ -37,7 +37,7 @@ class theatre(db.Model):
 
 #  Third Entity: Shows
 class Shows(db.Model):
-    __tablename__ = "Shows"
+    __tablename__ = "shows"  
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     genre = db.Column(db.String, nullable=False)
@@ -45,12 +45,12 @@ class Shows(db.Model):
     ratings = db.Column(db.Integer, default=0)
     ticket_price = db.Column(db.Float, default=0.0)
     date_time = db.Column(db.DateTime, nullable=False)
-    Theatre_id = db.Column(db.Integer, db.ForeignKey("theatre.id"), nullable=False)
+    theatre_id = db.Column(db.Integer, db.ForeignKey("theatre.id"), nullable=False)
     tickets = db.relationship("Ticket", cascade="all,delete", backref="Shows", lazy=True)
 
 #  Fourth Entity: Ticket
 class Ticket(db.Model):
-    __tablename__ = "Ticket"
+    __tablename__ = "ticket"  
     id = db.Column(db.Integer, primary_key=True)
     number_of_tickets = db.Column(db.Integer, nullable=False)
     sl_no = db.Column(db.Integer, default=0)
@@ -58,4 +58,4 @@ class Ticket(db.Model):
     date_time = db.Column(db.DateTime, nullable=False)
     user_ratings = db.Column(db.Integer, default=0)
     user_id = db.Column(db.Integer, db.ForeignKey("user_info.id"), nullable=False)
-    Show_id = db.Column(db.Integer, db.ForeignKey("Shows.id"), nullable=False)
+    Show_id = db.Column(db.Integer, db.ForeignKey("shows.id"), nullable=False)  

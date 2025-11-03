@@ -28,8 +28,8 @@ class theatre(db.Model):
     __tablename__ = "theatre" 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    email = db.Column(db.String, unique=True, nullable=False)
-    password = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, unique=True)
+    password = db.Column(db.String)
     location = db.Column(db.String, nullable=False)
     pin_code = db.Column(db.Integer, nullable=False)
     capacity = db.Column(db.Integer, nullable=False)

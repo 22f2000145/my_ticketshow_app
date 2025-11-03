@@ -1,6 +1,6 @@
-from flask import render_template, request
+from flask import render_template, request, url_for, redirect
 from app import application, db
-from .models import User_info
+from .models import User_info, theatre
 
 # Home page
 @application.route("/")
@@ -23,10 +23,10 @@ def signin():
         if user and user.password == pwd:
             if user.role == 0:
                 print("Admin login successful")
-                return render_template("admin_dashboard.html",name=uname)
+                return redirect(url_for("admin_dashboard",name=uname))
             elif user.role == 1:
                 print("User login successful")
-                return render_template("user_dashboard.html",name=uname)
+                return redirect(url_for("user_dashboard",name=uname))
         else:
             print("Invalid login credentials")
             return render_template("login.html", msg="INVALID USER CREDENTIALS")
@@ -72,6 +72,17 @@ def signup():
     return render_template("signup.html", msg="")
 
 
+
+#common route for admin and user dashboard
+@application.route("/admin/<name>")
+def admin_dashboard(name):
+    theatres = get_theatres()
+    return render_template("admin_dashboard.html",name=name,theatres=theatres)
+
+@application.route("/user/<name>")
+def user_dashboard(name):
+    return render_template("user_dashboard.html",name=name)
+
 @application.route("/venue/<name>", methods=["GET", "POST"])
 def add_venue(name):
     if request.method == "POST":
@@ -79,9 +90,19 @@ def add_venue(name):
         location = request.form.get("location")
         pin_code = request.form.get("pin_code")
         capacity = request.form.get("capacity")
+        new_theatre = theatre(name=venue_name,location=location,pin_code=pin_code,capacity=capacity)
+        db.session.add(new_theatre)
+        db.session.commit()
 
         print("Venue submitted:", venue_name, location, pin_code, capacity)
 
-        return render_template("add_venue.html", name=name, msg="Venue added successfully!")
+        return redirect(url_for("admin_dashboard",name=name))
+
 
     return render_template("add_venue.html", name=name)
+
+
+#other supported function
+def get_theatres():
+    theatres = theatre.query.all()
+    return theatres

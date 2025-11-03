@@ -37,16 +37,13 @@ class theatre(db.Model):
 
 #  Third Entity: Shows
 class Shows(db.Model):
-    __tablename__ = "shows"  
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     genre = db.Column(db.String, nullable=False)
-    location = db.Column(db.String, nullable=False)
     ratings = db.Column(db.Integer, default=0)
-    ticket_price = db.Column(db.Float, default=0.0)
+    ticket_price = db.Column(db.Float, nullable=False)
     date_time = db.Column(db.DateTime, nullable=False)
     theatre_id = db.Column(db.Integer, db.ForeignKey("theatre.id"), nullable=False)
-    tickets = db.relationship("Ticket", cascade="all,delete", backref="Shows", lazy=True)
 
 #  Fourth Entity: Ticket
 class Ticket(db.Model):
